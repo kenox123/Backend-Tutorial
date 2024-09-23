@@ -1,6 +1,6 @@
-import mongoose, { Scheme, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
-const userSchema = new Scheme(
+const userSchema = new Schema(
   {
     username: {
       type: String,
@@ -52,7 +52,7 @@ const userSchema = new Scheme(
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
-  this.password = bcrypt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
